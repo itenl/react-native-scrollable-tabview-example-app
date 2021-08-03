@@ -23,10 +23,11 @@ class Screen1 extends React.Component {
   }
 
   onRefresh = toggled => {
-    toggled();
+    this.toggled = toggled;
+    this.toggled && this.toggled();
     alert('Screen1 onRefresh');
     // to do
-    toggled();
+    this.toggled && this.toggled();
   };
 
   render() {
@@ -57,9 +58,11 @@ class Screen2 extends React.Component {
     };
   }
   onRefresh = toggled => {
-    toggled(false);
+    this.toggled = toggled;
+    this.toggled && this.toggled();
+    alert('Screen2 onRefresh');
     // to do
-    alert('Screen1 onRefresh');
+    this.toggled && this.toggled();
   };
 
   onEndReached = () => {
@@ -222,6 +225,11 @@ export default class APP extends React.Component {
     clearTimeout(this.timer);
   }
 
+  refreshCurrentTab = () => {
+    const currentTabScreen = this.scrollableTabView.getCurrentRef();
+    if (currentTabScreen && currentTabScreen.onRefresh) currentTabScreen.onRefresh();
+  };
+
   pushStack() {
     const stacks = this.state.stacks;
     const temp = {
@@ -314,6 +322,7 @@ export default class APP extends React.Component {
           ref={it => (this.scrollableTabView = it)}
           onTabviewChanged={(index, tabLabel) => {
             console.log(`${index},${tabLabel}`);
+            this.refreshCurrentTab();
           }}
           mappingProps={{
             rootTime: this.state.rootTime
