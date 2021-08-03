@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
-import ScrollableTabView from './react-native-scrollable-tabview';
+import ScrollableTabView from '@itenl/react-native-scrollable-tabview';
 
 class Screen1 extends React.Component {
   constructor(props) {
