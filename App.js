@@ -25,7 +25,7 @@ class Screen1 extends React.Component {
   onRefresh = toggled => {
     this.toggled = toggled;
     this.toggled && this.toggled();
-    alert('Screen1 onRefresh');
+    console.log('Screen1 onRefresh');
     // to do
     this.toggled && this.toggled();
   };
@@ -37,6 +37,7 @@ class Screen1 extends React.Component {
         <Text>this.props.topropsTextValue: {this.props.topropsTextValue}</Text>
         <Text>this.state.time: {this.state.time}</Text>
         <Text>this.props.rootTime: {this.props.rootTime}</Text>
+        <Text>this.props.tabLabel: {this.props.tabLabel}</Text>
       </View>
     );
   }
@@ -60,7 +61,7 @@ class Screen2 extends React.Component {
   onRefresh = toggled => {
     this.toggled = toggled;
     this.toggled && this.toggled();
-    alert('Screen2 onRefresh');
+    console.log('Screen2 onRefresh');
     // to do
     this.toggled && this.toggled();
   };
@@ -214,11 +215,11 @@ export default class APP extends React.Component {
         stacks
       });
     }, 5000);
-    this.timer = setInterval(() => {
-      this.setState({
-        rootTime: Date.now()
-      });
-    }, 1000);
+    // this.timer = setInterval(() => {
+    //   this.setState({
+    //     rootTime: Date.now()
+    //   });
+    // }, 1000);
   }
 
   componentWillUnmount() {
@@ -226,32 +227,28 @@ export default class APP extends React.Component {
   }
 
   refreshCurrentTab = () => {
-    const currentTabScreen = this.scrollableTabView.getCurrentRef();
-    if (currentTabScreen && currentTabScreen.onRefresh) currentTabScreen.onRefresh();
+    if (this.scrollableTabView) {
+      const currentTabScreen = this.scrollableTabView.getCurrentRef();
+      if (currentTabScreen && currentTabScreen.onRefresh) currentTabScreen.onRefresh();
+    }
   };
 
   pushStack() {
     const stacks = this.state.stacks;
+    const tabLabel = `Screen${stacks.length + 1}`;
     const temp = {
       screen: Screen1,
-      tabLabel: `Screen${stacks.length + 1}`,
+      tabLabel,
       toProps: {
-        topropsTextValue: Math.random()
+        topropsTextValue: Math.random(),
+        tabLabel
       }
     };
     stacks.push(temp);
-    this.setState(
-      {
-        stacks
-      },
-      () => {
-        global.set = index => {
-          this.setState({
-            firstIndex: index
-          });
-        };
-      }
-    );
+    this.setState({
+      stacks,
+      firstIndex: stacks.length - 1
+    });
   }
 
   pushTips() {
