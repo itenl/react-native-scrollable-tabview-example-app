@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import ScrollableTabView from '@itenl/react-native-scrollable-tabview';
 
 class Screen1 extends React.Component {
@@ -25,7 +25,7 @@ class Screen1 extends React.Component {
   onRefresh = toggled => {
     this.toggled = toggled;
     this.toggled && this.toggled();
-    console.log('Screen1 onRefresh');
+    alert('Screen1 onRefresh');
     // to do
     this.toggled && this.toggled();
   };
@@ -61,7 +61,7 @@ class Screen2 extends React.Component {
   onRefresh = toggled => {
     this.toggled = toggled;
     this.toggled && this.toggled();
-    console.log('Screen2 onRefresh');
+    alert('Screen2 onRefresh');
     // to do
     this.toggled && this.toggled();
   };
@@ -145,6 +145,14 @@ class Sticky extends React.Component {
       <View style={{ flex: 1, backgroundColor: 'green', alignItems: 'center', justifyContent: 'center' }}>
         <Text>this.props {JSON.stringify(Object.keys(this.props).join('|'), null, 2)}</Text>
         {this.props.screenContext && <Text>this.props.screenContext.props.rootTime: {this.props.screenContext.props.rootTime}</Text>}
+        <TouchableOpacity
+          onPress={() => {
+            this.props.screenContext.onRefresh();
+          }}
+          style={{ backgroundColor: 'pink', width: 150, height: 50 }}
+        >
+          <Text>Call Screen method</Text>
+        </TouchableOpacity>
       </View>
     );
   }
