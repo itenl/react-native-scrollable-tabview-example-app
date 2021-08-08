@@ -240,7 +240,7 @@ export default class APP extends React.Component {
   initStacks() {
     return [
       {
-        screen: Screen2,
+        screen: Screen1,
         tabLabel: "Screen1",
         toProps: {
           topropsTextValue: Math.random(),
