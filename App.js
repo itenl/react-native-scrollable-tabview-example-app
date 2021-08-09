@@ -284,12 +284,14 @@ export default class APP extends React.Component {
     });
     setTimeout(() => {
       const stacks = this.state.stacks;
-      stacks[1].tabLabelRender = (tabLabel) => {
-        return `--- ${tabLabel} ---`;
-      };
-      this.setState({
-        stacks,
-      });
+      if (stacks && stacks[1]) {
+        stacks[1].tabLabelRender = (tabLabel) => {
+          return `--- ${tabLabel} ---`;
+        };
+        this.setState({
+          stacks,
+        });
+      }
     }, 5000);
     // this.timer = setInterval(() => {
     //   this.setState({
