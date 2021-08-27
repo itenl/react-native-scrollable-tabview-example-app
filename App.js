@@ -1,6 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import ScrollableTabView from "@itenl/react-native-scrollable-tabview";
+const deviceWidth = Dimensions.get("window").width;
 
 class Screen1 extends React.Component {
   constructor(props) {
@@ -25,7 +32,6 @@ class Screen1 extends React.Component {
   onRefresh = (toggled) => {
     this.toggled = toggled;
     this.toggled && this.toggled();
-    alert("Screen1 onRefresh");
     // to do
     this.toggled && this.toggled();
   };
@@ -71,7 +77,6 @@ class Screen2 extends React.Component {
   onRefresh = (toggled) => {
     this.toggled = toggled;
     this.toggled && this.toggled();
-    alert("Screen2 onRefresh");
     // to do
     this.toggled && this.toggled();
   };
@@ -233,8 +238,9 @@ export default class APP extends React.Component {
       rootTime: Date.now(),
       stacks: [],
       firstIndex: 0,
+      useScroll: false,
     };
-    this.useScroll = false;
+    // alert(deviceWidth)
   }
 
   initStacks() {
@@ -331,8 +337,10 @@ export default class APP extends React.Component {
   }
 
   pushTips() {
-    if (this.useScroll)
+    if (this.state.useScroll) {
       alert("Setting useScroll to true will not be able to layout");
+      this.changeUseScroll();
+    }
     const stacks = this.state.stacks;
     stacks[1].badge.push(
       <View
@@ -411,6 +419,12 @@ export default class APP extends React.Component {
     });
   }
 
+  changeUseScroll() {
+    this.setState({
+      useScroll: !this.state.useScroll,
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -425,7 +439,22 @@ export default class APP extends React.Component {
           }}
           stacks={this.state.stacks}
           tabsStyle={{ borderTopWidth: 0.5, borderTopColor: "#efefef" }}
-          tabStyle={{ paddingHorizontal: 15, backgroundColor: "pink" }}
+          tabWrapStyle={(item, index) => {
+            if (index == 1) return { zIndex: 10 };
+          }}
+          useScrollStyle={{
+            paddingHorizontal: 50,
+          }}
+          tabStyle={{
+            marginLeft: 10,
+            marginRight: 10,
+            // marginHorizontal: 50,
+            // left: 100,
+            paddingHorizontal: 15,
+            backgroundColor: "pink",
+            // width: deviceWidth / this.state.stacks.length,
+            width: 100,
+          }}
           textStyle={{}}
           textActiveStyle={{
             color: "red",
@@ -448,6 +477,11 @@ export default class APP extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.pushStack.bind(this)}>
                   <Text>Push Stack</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.changeUseScroll.bind(this)}>
+                  <Text>
+                    Change useScroll: {this.state.useScroll.toString()}
+                  </Text>
                 </TouchableOpacity>
               </View>
             );
@@ -479,7 +513,9 @@ export default class APP extends React.Component {
           oneTabHidden={true}
           enableCachePage={true}
           // fixedTabs={true}
-          useScroll={this.useScroll}
+          tabsEnableAnimatedUnderlineWidth={30}
+          tabsEnableAnimated={true}
+          useScroll={this.state.useScroll}
         ></ScrollableTabView>
       </View>
     );
