@@ -2,6 +2,7 @@
   "expo": {
     "name": "react-native-scrollable-tabview-example-app",
     "slug": "react-native-scrollable-tabview-example-app",
+    "owner": "itenl",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

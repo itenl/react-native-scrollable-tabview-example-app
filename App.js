@@ -483,6 +483,18 @@ export default class APP extends React.Component {
                     Change useScroll: {this.state.useScroll.toString()}
                   </Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.scrollableTabView.clearStacks(() => {
+                      this.setState({
+                        firstIndex: 0,
+                        stacks: this.initStacks(),
+                      });
+                    });
+                  }}
+                >
+                  <Text>Clear Stacks</Text>
+                </TouchableOpacity>
               </View>
             );
           }}
